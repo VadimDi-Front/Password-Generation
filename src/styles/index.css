@@ -74,8 +74,10 @@ h1 {
 }
 
 h2{
+  display: flex;
   margin-top: 4px;
   margin-bottom: 6px;
+  text-align: left;
 }
 h4{
   margin-top: 4px;
@@ -145,15 +147,23 @@ button:focus-visible {
   margin-top: 20px;
   margin-bottom: 40px;
   margin-left: 80px;
+
 }
 .slider-label {
   margin-bottom: 8px;
   display: block;
   font-weight: bold;
 }
-input[type="range"] {
+input[type="text"] {
   width: 100%;
-
+  display: flex;
+  align-items: center;
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: #bab9ba;
+  background-color: #24232b;
 }
 
 .container-range{

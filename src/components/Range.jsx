@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 import "../styles/range.css";
-const PasswordSlider = ({ passwordLength, onChangeLength }) => {
+
+
+const CreateToDo = ({ input, setInput,addTask }) => {
     return (
-        <div className="slider-container">
-            <label htmlFor="passwordLength" className="lengthLabel">
-                Character Length <span className="colorPasswordLength">{passwordLength}</span>
-            </label>
+        <div className="{`root ${theme} `}">
+
             <input
-                type="range"
+                type="text"
+                className="{`root ${theme} `}"
                 id="passwordLength"
-                min="4"
-                max="32"
-                value={passwordLength}
-                onChange={(e) => onChangeLength(parseInt(e.target.value, 10))}
-            />
+
+                placeholder="Create a new To Do"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                        addTask();
+                    }
+                }}
+             />
+
         </div>
     );
 };
 
-export default PasswordSlider;
+export default CreateToDo;

@@ -1,135 +1,119 @@
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
+import { useEffect } from 'react';
 import "./App.css";
-import PasswordSlider from "../Range.jsx";
-// import { Checkbox } from "../Checkbox";
-
-function App() {
-    const [password, setPassword] = useState("");
-    const [passwordLength, setPasswordLength] = useState(12);
-
-    const [includeUppercase, setIncludeUppercase] = useState(false);
-    const [includeLowercase, setIncludeLowercase] = useState(false);
-    const [includeNumbers, setIncludeNumbers] = useState(false);
-    const [includeSymbols, setIncludeSymbols] = useState(false);
-
-    const [level, setLevel] = useState(0);
-
-    const generatePassword = () => {
-        const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const lowercase = "abcdefghijklmnopqrstuvwxyz";
-        const numbers = "0123456789";
-        const symbols = "!@#$%^&*()_+=-{}[]<>?/";
-
-        let chars = "";
-        let newlevel=0;
-        if (includeUppercase){
-            chars += uppercase;
-            newlevel++;
-        }
-
-        if (includeLowercase) {
-            chars += lowercase;
-            newlevel++;
-        } ;
-        if (includeNumbers) {
-            chars += numbers;
-            newlevel++;
-        }
-        if (includeSymbols) {
-            chars += symbols;
-            newlevel++;
-        }
-        if(passwordLength>16){
-            newlevel++;
-        }
-        if(passwordLength>22){
-            newlevel++;
-        }
-
-        console.log("UPPERCASE:", includeUppercase);
-        console.log("LOWERCASE:", includeLowercase);
-        console.log("NUMBERS:", includeNumbers);
-        console.log("SYMBOLS:", includeSymbols);
-        console.log("Level", newlevel);
+import CreateToDo from "../Range.jsx";
+import { ThemeContext } from "./ThemeContext.jsx";
 
 
-        if (!chars) {
-            alert("Выберите хотя бы один тип символов!");
-            return;
-        }
+    function App() {
+        const [input, setInput] = useState("");
+        const [counter, setCounter] = useState(0);
 
-        let result = "";
-        for (let i = 0; i < passwordLength; i++) {
-            const rand = Math.floor(Math.random() * chars.length);
-            result += chars[rand];
-        }
+        const [tasks, setTasks] = useState(() => {
+            const saved = localStorage.getItem('tasks');
+            return saved ? JSON.parse(saved) : [];
+        });
 
-        setPassword(result);
-        setLevel(newlevel);
-    };
+        useEffect(() => {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }, [tasks]);
 
-    return (
-        <div className="app-wrapper">
-            <h2>Password Generator</h2>
 
-            <div className="text-password">
-                <h3 className="h3">{password}</h3>
-                <button className="button-copy" onClick={() => navigator.clipboard.writeText(password)}>
-                    Copy
-                </button>
-            </div>
-                <div className="card-password">
-                    <PasswordSlider
-                        passwordLength={passwordLength}
-                        onChangeLength={setPasswordLength}
+        const { theme, toggleTheme } = useContext(ThemeContext);
+
+
+
+        const [filter, setFilter] = useState('all');
+
+            const addTask = () => {
+                if (input.trim() === '') return;
+
+                const newTask = {
+                    id: Date.now(),
+                    text: input,
+                    completed: false,
+                };
+                console.log(newTask);
+                setTasks([...tasks, newTask]); // создаём новый массив с новой задачей
+                setInput(''); // очищаем поле ввода
+            };
+
+        const toggleComplete = (id) => {
+            setTasks((prevTasks) =>
+                prevTasks.map((task) =>
+                    task.id === id ? { ...task, completed: !task.completed } : task
+                )
+            );
+        };
+
+
+        const filterTasks =  tasks.filter(task => {
+                if (filter === 'completed') return task.completed;
+                if (filter === 'incompleted') return !task.completed;
+                return true;
+            });
+
+            const deleteTask = () => {
+                setTasks(prevTasks => prevTasks.filter(task => !task.completed));
+            }
+
+
+        return (
+            <div className={`body ${theme}`}> {/* ← добавь класс с темой */}
+
+
+            <div className="app-wrapper">
+                <h2>T O D O</h2>
+
+                <div className="text-password">
+                    <CreateToDo
+                        input={input}
+                        setInput={setInput}
+                    addTask={addTask}
                     />
 
-                    <div className="checkboxes" >
-                        <label>
-                            <input
-                                type="checkbox" className="choice"
-                                checked={includeUppercase}
-                                onChange={() => setIncludeUppercase(prev => !prev)}
-                            />
-                            Include Uppercase Letters
-                        </label>
 
-                        <label>
-                            <input
-                                type="checkbox" className="choice"
-                                checked={includeLowercase}
-                                onChange={() => setIncludeLowercase(prev => !prev)}
-                            />
-                            Include LowerCase Letters
-                        </label>
-
-                        <label>
-                            <input
-                                type="checkbox" className="choice"
-                                checked={includeNumbers}
-                                onChange={() => setIncludeNumbers(prev => !prev)}
-                            />
-                            Include Numbers
-                        </label>
-                        <label>
-                            <input
-                                type="checkbox" className="choice"
-                                checked={includeSymbols}
-                                onChange={() => setIncludeSymbols(prev => !prev)}
-                            />
-                            Include Symbols
-                        </label>
-
-                    </div>
-                    <div className="level">
-                        <h3>Сложность пароля: {level}/6</h3>
-                    </div>
-                    <button className="button-generation" onClick={generatePassword}>
-                        GENERATE =>
-                    </button>
                 </div>
-        </div>
-    );
-}
+                    <div className="`card-password ${theme}`">
+                            <ul style={{ listStyleType: 'none'}}>
+                                {filterTasks.map((task) => (
+                                    <li key={task.id} className="element-list" style={{ marginBottom: '8px' }}>
+
+                                        <label  className="text-task" style= {{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                                            <input
+                                                className="input-list round-checkbox"
+                                                type="checkbox"
+                                                checked={task.completed}
+                                                onChange={() => toggleComplete(task.id)}
+                                            />
+                                            <span
+                                                style={{
+                                                    textDecoration: task.completed ? 'line-through' : 'none',
+                                                }}
+                                            >
+                                          {task.text}
+                                        </span>
+                                        </label>
+                                        <hr className="line" />
+                                    </li>
+                                ))}
+                            </ul>
+
+                        <div className="menu-btn">
+                                <button onClick={()=> setFilter('all')} className="menu-btn-style">All</button>
+                                <button onClick={()=> setFilter('completed')} className="menu-btn-style">Ready</button>
+                                <button onClick={()=> setFilter('incompleted')} className="menu-btn-style">NotReady</button>
+                                <button onClick={deleteTask} className="menu-btn-style">Clean</button>
+                            <button onClick={()=> setCounter (prev => prev+1)} className="menu-btn-style">{counter}</button>
+                            <button onClick={toggleTheme} className="menu-btn-style">Смена Темы</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        );
+    }
 
 export default App;
