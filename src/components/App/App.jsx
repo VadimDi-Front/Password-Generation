@@ -1,8 +1,7 @@
-import React, { useContext, useState } from "react";
-import { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./App.css";
-import CreateToDo from "../Range.jsx";
-import { ThemeContext } from "./ThemeContext.jsx";
+import CreateToDo from "./CreateToDo.jsx";
+import { ThemeContext } from "../ThemeContext.jsx";
 
 function App() {
   const [input, setInput] = useState("");
