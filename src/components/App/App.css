@@ -6,14 +6,12 @@
 }
 
 .container {
-  transition: all .5s ease;
-
+  transition: all 0.5s ease;
 }
 
 .container-visible {
   margin-top: 30px;
   margin-bottom: 12px;
-
 }
 
 .hide {
@@ -58,9 +56,8 @@
 }
 .name-container {
   color: #7a7788;
-
 }
-.checkboxes{
+.checkboxes {
   display: flex;
   max-width: 300px;
   text-align: left;
@@ -72,7 +69,7 @@
   margin-bottom: 40px;
 }
 
-.choice{
+.choice {
   margin-right: 15px;
 }
 
@@ -86,13 +83,12 @@
   padding: 10px 10px;
   margin-left: 30px;
 }
-.h3{
+.h3 {
   width: 300px;
   margin-left: 95px;
 }
 
-
-.card-password{
+.card-password {
   background-color: #24232b;
   justify-content: center;
   width: 480px;
@@ -102,41 +98,39 @@
   margin: 20px;
 }
 
-.text-task{
+.text-task {
   font-size: 18px;
   letter-spacing: 1.8px;
   color: #5e52ff;
 }
 
-.input-list{
+.input-list {
   width: 24px;
   height: 24px;
-  border-radius: 50%;              /* делает его круглым */
-  appearance: none;                /* убираем стандартный стиль */
+  border-radius: 50%; /* делает его круглым */
+  appearance: none; /* убираем стандартный стиль */
   border: 2px solid #555;
   cursor: pointer;
   position: relative;
   transition: background 0.2s ease;
 }
 .input-list:checked {
-  background-color: #81da73;       /* зелёный при выборе */
+  background-color: #81da73; /* зелёный при выборе */
 }
 
-.element-list{
+.element-list {
   display: flex;
   flex-direction: column;
   margin-top: 30px;
-
 }
-.line{
+.line {
   border: none;
   border-top: 1px solid #343553;
   margin: 16px 0;
   width: 100%;
-
 }
 
-.menu-btn{
+.menu-btn {
   margin-top: auto;
 
   display: flex;
@@ -144,15 +138,15 @@
   gap: 10px;
   padding-top: 20px;
 }
-.menu-btn-style{
+.menu-btn-style {
   background-color: #79c3f8;
   border: none;
 }
-.menu-btn-style:hover{
+.menu-btn-style:hover {
   background-color: #e4c943;
   border: none;
 }
-.menu-btn-style:active{
+.menu-btn-style:active {
   background-color: #2f2e33;
   border: none;
 }
@@ -172,7 +166,7 @@
   margin-bottom: 16px;
 }
 
-.root{
+.root {
   background-color: #ffffff;
   color: #000000;
 }
