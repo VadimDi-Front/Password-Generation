@@ -1,14 +1,10 @@
-.lengthLabel{
-    display: inline-block;
-    font-size: 20px;
-    justify-content: space-between;
-    margin-bottom: 15px;
+.lengthLabel {
+  display: inline-block;
+  font-size: 20px;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
 
-.colorPasswordLength{
-
-    color: #a3fdae;
-
+.colorPasswordLength {
+  color: #a3fdae;
 }
-
-
